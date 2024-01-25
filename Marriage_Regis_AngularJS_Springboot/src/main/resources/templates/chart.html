@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html ng-app="AngularApp">
+
+<head>
+	<title>Ratio Chart</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+	<style>
+		body {
+			background-attachment: fixed;
+			background-position: center;
+			font-weight: 600;
+			background-image: url("https://cdn.wallpapersafari.com/31/54/Hz7w8E.jpg");
+			background-repeat: no-repeat;
+			background-size: cover;
+			height: fit-content;
+			padding-bottom: 10px;
+		}
+
+		md-button {
+			background-color: #fdfdfd;
+			color: #000000;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		md-button:hover {
+			background-color: #0056b3;
+		}
+
+		.main-container {
+			display: flex;
+			justify-content: center;
+			padding-top: 20px;
+		}
+
+		.main-container #review1 {
+
+			width: 900px;
+			margin-bottom: 20px;
+			margin-top: 20px;
+
+		}
+	</style>
+</head>
+
+<body ng-controller="MyCtrl">
+	<nav class="navbar navbar-expand-lg bg-dark navbar-dark" style="position: relative">
+		<a class="navbar-brand" href="#" style="padding-left: 20px">Mariage Management System</a>
+
+		<!-- Navbar toggler button for small screens -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav ml-auto">
+				<!-- Add your navbar links here -->
+				<li class="nav-item">
+					<a class="nav-link" href="/home">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/welcome">Admin Page</a>
+				</li>
+
+			</ul>
+		</div>
+		<!--<a class="text-center" href="/signin" align="center" style="padding-right: 20px">
+			<md-button class="btn btn-success">Log In</md-button>
+		</a>
+		<a class="text-center" href="/index" align="center" style="padding-right: 20px">
+			<md-button class="btn btn-success">Registrataion</md-button>
+		</a>-->
+	</nav>
+
+	<br />
+	<br />
+
+	<div class="main-container">
+
+		<div class="container" id="review1">
+
+			<div class="row">
+				<div class=" offset-mt-3">
+
+					<div class="card-body" style="padding: 25px;">
+						<div class="row">
+							<div class="col-md-6">
+								<h1 style="color: purple">Gender Chart</h1>
+
+								<span id="genderChartContainer"></span>
+							</div>
+
+							<div class="col-md-6">
+								<h1 style="color: purple">MaritalStatus Chart</h1>
+
+								<span id="genderChartContainer1"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<script src="/angularjs/chart.js"></script>
+
+
+	<script>
+		var app = angular.module("AngularApp", []);
+
+		app.controller("MyCtrl", function ($scope, $http) {
+			$scope.genderData = {
+				male: 0,
+				female: 0,
+				transgender: 0,
+			};
+			$scope.StatusData = {
+				married: 0,
+				single: 0,
+				divorced: 0,
+			};
+
+			$scope.fetchGenderCounts = function () {
+				$http.get("/users/count-male").then(function (response) {
+					$scope.genderData.male = response.data;
+					$http.get("/users/count-female").then(
+						function (response) {
+							$scope.genderData.female = response.data;
+							$http.get("/users/count-trans").then(
+								function (response) {
+									$scope.genderData.transgender = response.data;
+
+									$scope.drawChart();
+								},
+								function (error) {
+									console.error("Error fetching female count:", error.data);
+								}
+							);
+						},
+						function (error) {
+							console.error("Error fetching male count:", error.data);
+						},
+						function (error) {
+							console.error("Error fetching transgender count:", error.data);
+						}
+					);
+				});
+			};
+			$scope.fetchStatusCounts = function () {
+				$http.get("/users/count-D").then(
+					function (response) {
+						$scope.StatusData.divorced = response.data;
+						$http.get("/users/count-S").then(
+							function (response) {
+								$scope.StatusData.single = response.data;
+								$http.get("/users/count-M").then(
+									function (response) {
+										$scope.StatusData.married = response.data;
+										$scope.drawChart1();
+									},
+									function (error) {
+										console.error(
+											"Error fetching married count:",
+											error.data
+										);
+									}
+								);
+							},
+							function (error) {
+								console.error("Error fetching single count:", error.data);
+							}
+						);
+					},
+					function (error) {
+						console.error("Error fetching divorced count:", error.data);
+					}
+				);
+			};
+
+			$scope.drawChart = function () {
+				var chartContainer = document.getElementById("genderChartContainer");
+				chartContainer.innerHTML = ""; // Clear previous content
+				var canvas = document.createElement("canvas");
+				canvas.width = 310;
+				canvas.height = 310;
+				chartContainer.appendChild(canvas);
+
+				var ctx = canvas.getContext("2d");
+				var chart = new Chart(ctx, {
+					type: "pie",
+					data: {
+						labels: ["Male ", "Other", "Female"],
+						datasets: [
+							{
+								data: [
+									$scope.genderData.male,
+									$scope.genderData.transgender,
+									$scope.genderData.female,
+								],
+								backgroundColor: [
+									"rgba(75, 192, 192, 1)",
+									"rgba(0,0,200, .2)",
+									"rgba(255, 99, 132, 0.4)",
+								],
+								borderColor: [
+									"rgba(75, 192, 192, 1)",
+									"rgba(0,0,0,.2)",
+									"rgba(255, 99, 132, 1)",
+								],
+								borderWidth: 1,
+							},
+						],
+					},
+					options: {
+						cutout: 0, // Set to 0 for a standard pie chart
+						responsive: false, // Disable responsiveness
+					},
+				});
+			};
+
+			$scope.drawChart1 = function () {
+				var chartContainer = document.getElementById("genderChartContainer1");
+				chartContainer.innerHTML = ""; // Clear previous content
+				var canvas = document.createElement("canvas");
+				canvas.width = 300;
+				canvas.height = 300;
+				chartContainer.appendChild(canvas);
+
+				var ctx = canvas.getContext("2d");
+				var chart = new Chart(ctx, {
+					type: "pie",
+					data: {
+						labels: ["Divorced", "Married", "Single"],
+						datasets: [
+							{
+								data: [
+									$scope.StatusData.divorced,
+									$scope.StatusData.married,
+									$scope.StatusData.single,
+								],
+								backgroundColor: [
+									"rgba(75, 192, 192, 1)",
+									"rgba(0,0,200, .2)",
+									"rgba(255, 99, 132, 0.4)",
+								],
+								borderColor: [
+									"rgba(75, 192, 192, .9)",
+									"rgba(0,0,0,.2)",
+									"rgba(255, 99, 132, 1)",
+								],
+
+								borderWidth: 1,
+							},
+						],
+					},
+					options: {
+						cutout: 0, // Set to 0 for a standard pie chart
+						responsive: false, // Disable responsiveness
+					},
+				});
+			};
+
+			$scope.fetchGenderCounts();
+			$scope.fetchStatusCounts();
+
+			// main start
+		});
+	</script>
+</body>
+
+</html>

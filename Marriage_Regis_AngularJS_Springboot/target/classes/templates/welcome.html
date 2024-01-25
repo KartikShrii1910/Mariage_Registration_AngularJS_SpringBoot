@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" ng-app="login">
+
+<head>
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="/css/login.css">
+</head>
+
+<body ng-controller="LoginController">
+	<nav class="navbar navbar-expand-lg bg-dark navbar-dark" style="position: relative;">
+
+		<a class="navbar-brand" href="#" style="padding-left: 20px;">Marriage Management System</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="/home">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/chart">Chart</a>
+				</li>
+
+			</ul>
+
+		</div>
+		<div style="display: flex;">
+			<div style="padding-right: 20px;">
+				<md-button class="btn btn-success" ng-click="downloadExcel11(responseData11.id)">Download All
+					Records</md-button>
+			</div>
+
+			<form action="/logout" method="get" style="padding-right: 40px;">
+				<input type="submit" value="Logout" class="btn btn-danger">
+			</form>
+		</div>
+
+	</nav>
+
+
+	<br>
+	<br>
+
+	<div class="main-container">
+
+		<div class="container" id="review1">
+
+			<div class="row">
+				<div class=" offset-mt-3">
+
+					<div class="card-body">
+						<h1 class="text-center mt-4">
+							Welcome {{ responseData11.name }} (Admin)
+						</h1>
+						<div class="row" style="padding: 25px;">
+
+							<div class="col-md-6" align="center">
+
+								<a class="text-center" href="/persondetail" align="center" style="padding-right: 20px;">
+									<button class="btn btn-success">
+										List of Persons
+									</button>
+								</a>
+							</div>
+							<div class="col-md-6" align="center">
+								<a class="text-center" href="/index" align="center" style="padding-right: 20px;">
+									<button class="btn btn-success">
+										Registration
+									</button>
+								</a>
+							</div>
+
+
+							<!--<div class="col-md-6" align="center">
+								<button ng-click="downloadExcel()">Download Excel</button>
+							</div>-->
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<script>
+			var app = angular.module('login', []);
+
+			app.controller('LoginController', function ($scope, $http) {
+
+				$http.get('/person11')
+					.then(function (response) {
+						// Handle the response data and save it in the variable
+						$scope.responseData11 = response.data;
+						console.log('Server response:', JSON.stringify($scope.responseData11));
+						/*	console.log('name:', $scope.responseData[0].name);*/
+					})
+					.catch(function (error) {
+						console.error('Error:', error);
+					});
+
+
+
+
+				$scope.downloadExcel11 = function (input) {
+					// Replace 'yourPassword' with the actual password you set in the server-side code
+					var id = input;
+
+					$http({
+						method: 'GET',
+						url: '/excel/downloadwithpassword',
+						responseType: 'arraybuffer',
+						params: {id: id} // Send the password as a parameter
+					})
+						.then(function (response) {
+							var blob = new Blob([response.data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+							var link = document.createElement('a');
+							link.href = window.URL.createObjectURL(blob);
+							link.download = 'people.xlsx';
+							document.body.appendChild(link);
+							link.click();
+							document.body.removeChild(link);
+						})
+						.catch(function (error) {
+							console.error(error);
+							alert("Error downloading Excel sheet");
+						});
+				};
+
+			})
+		</script>
+
+
+
+</body>
+
+</html>

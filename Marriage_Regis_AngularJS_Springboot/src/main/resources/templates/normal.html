@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html ng-app="MarriageRegistrationApp">
+
+<head>
+	<title>Marriage Registration</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-aria.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-messages.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/angular-material@1.1.12/angular-material.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+	<!--for details popup============================================================================= -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<!-- /  for details popup============================================================================= -->
+
+
+	<link rel="stylesheet"
+		href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/index.css">
+
+</head>
+
+<body ng-controller="RegistrationController">
+
+	<nav class="navbar navbar-expand-lg bg-dark navbar-dark" style="position: relative;">
+
+		<a class="navbar-brand" href="#" style="padding-left: 20px; font-size: 25px;">Marriage Management System</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav ml-auto">
+				<!--	<li class="nav-item">
+					<a class="nav-link" href="/home">Home</a>
+				</li>-->
+			</ul>
+
+		</div>
+
+
+		<div style="display: flex; padding-right: 20px; grid-column-gap: 10px; " >
+			<div>
+				<a class="text-center" ng-click="gender()" align="center">
+					<md-button class="btn btn-success" data-toggle="modal" data-target="#myModal">
+						Show Compatible
+					</md-button>
+				</a>
+				</div>
+				<div>
+
+					<a class="text-center" href="/logout" align="center">
+						<md-button class="btn btn-danger">
+							Log Out
+						</md-button>
+					</a>
+				</div>
+			</div>
+	</nav>
+
+	<div class="container mt-4 md-4">
+		<div ng-hide="final" style="padding-top: 15px;padding-bottom: 15px;">
+			<h1 class="mt-4" style="font-size: 50px;">Edit Details</h1>
+			<form name="registrationForm" enctype="multipart/form-data">
+				<div class="row">
+					<div class="col-md-6">
+						<md-input-container class="md-block">
+							<label class="font">Full Name</label>
+							<input md-maxlength="32" id="name" name="name" ng-model="responseData11.name" minlength="3"
+								maxlength="32" ng-pattern="/^[A-Za-z\s]{2,30}$/" required>
+							<div ng-messages="registrationForm.name.$error">
+								<div ng-message="required">This is required.</div>
+								<div ng-message-exp="[ 'required','minlength', 'maxlength', 'pattern']">Please enter
+									a
+									valid Format(Only Characters and space and max 32 characters).
+								</div>
+							</div>
+						</md-input-container>
+					</div>
+
+					<div class="col-md-6">
+						<md-input-container class="md-block" flex="100">
+							<label>Marital Status</label>
+							<md-select name="maritalStatus" ng-model="responseData11.maritalStatus" required>
+								<md-option value="Single">Single</md-option>
+								<md-option value="Married">Married</md-option>
+								<md-option value="Divorced">Divorced</md-option>
+							</md-select>
+							<div ng-messages="registrationForm.maritalStatus.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6" style="display: flex;">
+						<div class="col-md-6">
+							<md-input-container style="display: flex;">
+								<label class="font">Enter date</label>
+								<md-datepicker ng-model="responseData11.dateOfBirth" aria-label="Enter date"
+									md-max-date="maxDate" md-min-date="minDate"
+									ng-change="calculateAge(); validateAge()" required>
+								</md-datepicker>
+							</md-input-container>
+						</div>
+						<div class="col-md-6">
+							<md-input-container class="md-block">
+								<label class="font">Age</label>
+								<input required id="age" name="age" ng-model="responseData11.age" readonly
+									ng-change="validateAge()">
+								<div ng-messages="registrationForm.age.$error">
+									<div ng-message="required">This is required.</div>
+								</div>
+								<div ng-show="abc">
+									<div ng-hide="bca" style="color: red;">
+										Please Select a valid age above 21 year.
+									</div>
+								</div>
+							</md-input-container>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<md-input-container class="md-block">
+							<label class="font">Mobile Number</label>
+							<input id="mobileNumber" name="mobileNumber" ng-model="responseData11.mobileNumber"
+								md-maxlength="10" minlength="10" maxlength="10" ng-pattern="/^[6-9]\d{9}$/" required>
+							<div ng-messages="responseData11.mobileNumber.$error">
+								<div ng-message="required">This is required.</div>
+								<div ng-message-exp="[ 'required', 'minlength', 'maxlength', 'pattern']">
+									Please enter a valid 10-digit mobile number.
+								</div>
+							</div>
+						</md-input-container>
+					</div>
+				</div>
+
+
+				<div class="form-group" style="display: none;">
+					<label type="hide" class="control-label" for="gender">Role</label>
+					<select id="role" name="role" ng-model="responseData11.role" required disabled>
+						<option value="ROLE_NORMAL" selected>NORMAL</option>
+					</select>
+				</div>
+
+				<div class="col-md-6">
+					<label class="font">Select Area<span style="color: red;">*</span> </label>
+					<md-radio-group ng-model="responseData11.area" required>
+						<div class="mt-3" style="display:flex; ">
+							<md-radio-button value="Rural" class="md-primary" ng-click="togglerural()"
+								aria-label="Rural" style="margin-top: 3px;"></md-radio-button><span class="font2"
+								style="padding-left:40px ; padding-right:100px ;">Rural</span>
+
+							<md-radio-button value="Urban" class="md-primary" ng-click="togglerural()"
+								aria-label="Urban" style="margin-top: 3px;"></md-radio-button> <span class="font2"
+								style="padding-left: 40px; "> Urban </span>
+
+						</div>
+					</md-radio-group>
+				</div>
+
+
+
+
+
+				<div ng-if="responseData11.area === 'Rural'" class="row mt-3">
+					<div class="col-md-6">
+						<md-input-container class="md-block">
+							<label class="font">District</label>
+							<md-select name="district" ng-model="responseData11.district" required>
+								<md-option value="" disabled>Select District</md-option>
+								<md-option ng-repeat="district in ruralDistricts" ng-value="district">
+									{{ district }}</md-option>
+							</md-select>
+							<div ng-messages="registrationForm.district.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+					</div>
+
+					<div class="col-md-6">
+						<md-input-container class="md-block">
+							<label class="font">Block</label>
+							<md-select name="block" ng-model="responseData11.block" required>
+								<md-option value="" disabled>Select Block</md-option>
+								<md-option ng-repeat="block in ruralBlocks[responseData11.district]" ng-value="block">{{
+									block }}</md-option>
+							</md-select>
+							<div ng-messages="registrationForm.block.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+					</div>
+
+					<div class="col-md-6">
+						<md-input-container class="md-block	">
+							<label class="font">Gram</label>
+							<input md-maxlength="32" id="gram" name="gram" ng-model="responseData11.gram" minlength="3"
+								maxlength="32" ng-pattern="/^[A-Za-z\s]{2,30}$/" required>
+							<div ng-messages="registrationForm.gram.$error">
+								<div ng-message="required">This is required.</div>
+								<div ng-message-exp="[ 'required','minlength', 'maxlength', 'pattern']">Please
+									enter
+									a valid Format(Only Characters and space and max 32 characters).
+								</div>
+							</div>
+						</md-input-container>
+					</div>
+				</div>
+
+				<div ng-if="responseData11.area === 'Urban'" class="row mt-3">
+					<div class="col-md-6">
+						<md-input-container class="md-block">
+							<label class="font">District</label>
+							<md-select name="district" ng-model="responseData11.district" required>
+								<md-option value="" disabled>Select District</md-option>
+								<md-option ng-repeat="district in urbanDistricts" ng-value="district">{{
+									district
+									}}</md-option>
+							</md-select>
+							<div ng-messages="registrationForm.district.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+					</div>
+
+					<div class="col-md-6">
+						<md-input-container class="md-block">
+							<label class="font">City</label>
+							<md-select name="city" ng-model="responseData11.city" required>
+								<md-option value="" disabled>Select City</md-option>
+								<md-option ng-repeat="city in urbanCities[responseData11.district]" ng-value="city">
+									{{ city }}</md-option>
+							</md-select>
+							<div ng-messages="registrationForm.city.$error">
+								<div ng-message="required">This is required.</div>
+							</div>
+						</md-input-container>
+					</div>
+
+					<div class="col-md-6">
+						<md-input-container class="md-block">
+							<label class="font">Locality</label>
+							<input md-maxlength="32" id="locality" name="locality" ng-model="responseData11.locality"
+								minlength="3" maxlength="32" ng-pattern="/^[A-Za-z\s]{2,30}$/" required>
+							<div ng-messages="registrationForm.locality.$error">
+								<div ng-message="required">This is required.</div>
+								<div ng-message-exp="[ 'required','minlength', 'maxlength', 'pattern']">Please
+									enter
+									a valid Format(Only Characters and space and max 32 characters).
+								</div>
+							</div>
+						</md-input-container>
+					</div>
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<div class="row mt-3">
+
+					<div align="center" class="md-4">
+						<a ng-click="back()">
+							<md-button class="btn btn-info md-4 col-2">Back</md-button>
+						</a>
+
+						<md-button class="btn btn-info md-4 col-2" type="submit"
+							ng-click="finalSubmitForm()">Submit</md-button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+
+		<div class="kk mt-4 md-4" ng-show="final">
+			<h1>Information of {{ responseData11.name }}</h1>
+
+
+
+			<hr>
+			<div style="padding-left: 30px;">
+				<div class="row">
+					<div class="col-md-6">
+						<p>Name -> {{ responseData11.name }}</p>
+
+						<p>Gender -> {{ responseData11.gender }}</p>
+
+						<p>Date of Birth -> {{ responseData11.dateOfBirth | date:'dd-MM-yyyy' }}</p>
+
+						<p>Age -> {{ responseData11.age }} years</p>
+
+						<p>Email -> {{ responseData11.email }}</p>
+
+
+					</div>
+					<div class="col-md-6 mt-3" align="center">
+
+						<img ng-src="/image/{{responseData11.photo.id}}" alt="image" width="150px" height="150px" />
+
+						<p>Profile Photo -> {{ responseData11.photo.imageName }}
+
+
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col-md-6">
+						<p>Marital Status -> {{ responseData11.maritalStatus }}</p>
+						<p>Area -> {{ responseData11.area }}</p>
+
+						<div ng-show="responseData11.area === 'Urban'">
+							<p>District -> {{ responseData11.district || '--' }}</p>
+							<p>City -> {{ responseData11.city || '--' }}</p>
+							<p>Locality -> {{ responseData11.locality || '--' }}</p>
+						</div>
+
+						<div ng-show="responseData11.area === 'Rural'">
+							<p>District -> {{ responseData11.district || '--' }}</p>
+							<p>Block -> {{ responseData11.block || '--' }}</p>
+							<p>Gram -> {{ responseData11.gram || '--' }}</p>
+						</div>
+
+
+					</div>
+
+					<div class="col-md-6" alig=center>
+						<p>Mobile Number -> {{ responseData11.mobileNumber }}</p>
+						<p>Pan Card -> {{responseData11.photo.panCardName}} </p>
+
+						<p>Adhar Card -> {{responseData11.photo.adharCardName}}</p>
+
+						<p>10th Marksheet -> {{responseData11.photo.tenMarksheetName}}</p>
+
+						<p>12th Marksheet -> {{responseData11.photo.twelveMarksheetName}}</p>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div align="center">
+				<a ng-click="goBack()">
+					<md-button class="btn btn-info md-4 col-2"> Edit </md-button>
+				</a>
+			</div>
+
+			<div class="modal" id="myModal" data-backdrop="static" data-keyboard="false">
+				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div class="modal-content" style="width: 800px;">
+
+						<!-- Modal Body -->
+						<div class="modal-body">
+
+							<div class="overflow-auto">
+								<table id="myDataTable tab"
+									class="table table-striped stripe row-border order-column w-100 " cellspacing="3"
+									width="100%">
+									<thead>
+										<tr>
+											<th scope="col">Name</th>
+											<th scope="col">Age</th>
+											<th scope="col">Marital Status</th>
+											<th scope="col">Profile</th>
+											<th scope="col">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="persons in users">
+											<td>{{persons.name }}</td>
+											<td>{{persons.age}}</td>
+											<td>{{persons.maritalStatus}}</td>
+											<td>
+												<img ng-src="/image/{{persons.photo.id}}" alt="image" width="50px"
+													height="50px" />
+											</td>
+											<td>
+												<div style="display: flex;">
+													<md-button ng-click="open(persons.id)" data-toggle="modal"
+														data-target="#myModal1" class="btn btn-info">Show
+														Profile</md-button>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+
+						<!-- Modal Footer -->
+						<div class="modal-footer ">
+							<md-button class=" btn btn-danger" data-dismiss="modal" ng-click="fileedit()"
+								align="right">&times;
+								cancel</md-button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+			<div class="modal" id="myModal1" data-backdrop="static" data-keyboard="false">
+				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div class="modal-content" style="width: 800px;">
+
+						<!-- Modal Body -->
+						<div class="modal-body">
+							<div class="overflow-auto">
+								<div style="padding-left: 30px;">
+									<hr>
+									<div class="row">
+										<div class="col-md-6">
+
+											<p>Name -> {{ review1.name }}</p>
+											<p>Gender -> {{ review1.gender }}</p>
+											<p>Date of Birth -> {{ review1.dateOfBirth | date:'dd-MM-yyyy' }}</p>
+											<p>Age -> {{ review1.age }} years</p>
+											<p>Email -> {{ review1.email }}</p>
+										</div>
+										<div class="col-md-6 mt-3" align="center">
+											<img ng-src="/image/{{review1.photo.id}}" alt="image" width="150px"
+												height="150px" />
+											<p>Profile Photo -> {{ review1.photo.imageName }}
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+											<p>Marital Status -> {{ review1.maritalStatus }}</p>
+											<p>Area -> {{ review1.area }}</p>
+
+											<div ng-show="review1.area === 'Urban'">
+												<p>District -> {{ review1.district || '--' }}</p>
+												<p>City -> {{ review1.city || '--' }}</p>
+												<p>Locality -> {{ review1.locality || '--' }}</p>
+											</div>
+
+											<div ng-show="review1.area === 'Rural'">
+												<p>District -> {{ review1.district || '--' }}</p>
+												<p>Block -> {{ review1.block || '--' }}</p>
+												<p>Gram -> {{ review1.gram || '--' }}</p>
+											</div>
+										</div>
+									</div>
+									<hr>
+								</div>
+							</div>
+						</div>
+
+						<!-- Modal Footer -->
+						<div class="modal-footer ">
+							<md-button class=" btn btn-danger" data-dismiss="modal" ng-click="fileedit()"
+								align="right">&times; cancel
+							</md-button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/angularjs/normal.js"></script>
+
+</body>
+
+</html>

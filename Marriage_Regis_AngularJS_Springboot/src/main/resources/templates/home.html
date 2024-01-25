@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html ng-app="MarriageRegistrationApp" ng-controller="RegistrationController">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Home</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-aria.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-messages.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/angular-material@1.1.12/angular-material.min.js"></script>
+
+
+	<link rel="stylesheet"
+		href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css">
+
+
+
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/css/login.css">
+</head>
+
+<body ng-controller="bodyController">
+	<div ng-show="admin">
+		<nav class="navbar navbar-expand-lg bg-dark navbar-dark" style="position: relative;">
+			<a class="navbar-brand" href="#" style="padding-left: 20px;">Marriage Management System</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/home">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/chart">Chart</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/welcome">Admin Page</a>
+					</li>
+				</ul>
+			</div>
+
+			<a class="text-center" href="/index" align="center" style="padding-right: 20px;">
+				<md-button class="btn btn-success">
+					Registration
+				</md-button>
+			</a>
+			<a class="text-center" href="/logout" align="center" style="padding-right: 20px;">
+				<md-button class="btn btn-danger">
+					Log Out
+				</md-button>
+			</a>
+		</nav>
+	</div>
+	<div ng-hide="admin">
+		<nav class="navbar navbar-expand-lg bg-dark navbar-dark" style="position: relative;">
+			<a class="navbar-brand" href="#" style="padding-left: 20px;">Marriage Management System</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<!--<li class="nav-item">
+						<a class="nav-link" href="/home">Home</a>
+					</li>-->
+					<!--<li class="nav-item">
+						<a class="nav-link" href="/chart">Chart</a>
+					</li>-->
+				</ul>
+			</div>
+
+
+			<div style="display: flex; padding-right: 20px;">
+				<div style="padding-right: 10px;">
+					<a class="text-center" href="/index" align="center">
+						<md-button class="btn btn-success">
+							Registration
+						</md-button>
+					</a>
+				</div>
+				<div>
+					<a class="text-center" href="/signin" align="center">
+						<md-button class="btn btn-success">
+							Log In
+						</md-button>
+					</a>
+				</div>
+
+
+			</div>
+			<!--<div class="row" style="display: flex; padding-right: 20px;">
+				<div>
+					<a class="text-center" href="/index" align="center">
+						<md-button class="btn btn-success">
+							Registration
+						</md-button>
+					</a>
+				</div>
+				<div>
+					<a class="text-center" href="/signin" align="center">
+						<md-button class="btn btn-success">
+							Log In
+						</md-button>
+					</a>
+				</div>
+			</div>
+
+-->
+		</nav>
+	</div>
+	<!--<nav class="navbar navbar-expand-lg bg-dark navbar-dark" style="position: relative;">
+
+		<a class="navbar-brand" href="#" style="padding-left: 20px;">Mariage Management System</a>
+
+		 Navbar toggler button for small screens 
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		 Navbar links 
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav ml-auto">
+				 Add your navbar links here 
+				<li class="nav-item">
+					<a class="nav-link" href="/welcome">Admin Page</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/chart">Chart</a>
+				</li>
+
+			</ul>
+
+		</div>
+		<a class="text-center" href="/signin" align="center" style="padding-right: 20px;">
+			<button class="btn btn-success">
+				Log In
+			</button>
+		</a>
+		<a class="text-center" href="/index" align="center" style="padding-right: 20px;">
+			<button class="btn btn-success">
+				Registrataion
+			</button>
+		</a>
+	</nav>-->
+
+	<br>
+	<br>
+
+
+
+
+	<div class="container" id="review1" align="center">
+		<div class="kkk">
+
+			<div class="row">
+				<div class=" offset-mt-3">
+
+					<div class="card-body">
+						<h1 id="h2"> Welcome to Home Page</h3>
+							<p>
+								<hr>
+								We believe in the magic of love and the power of lifelong partnerships. Our platform is
+								designed
+								with a
+								singular mission – to bring hearts together and create beautiful, enduring connections.
+								Whether
+								you're
+								embarking on the journey of matrimony or seeking a companion to share life's joys, we
+								are here to
+								make your
+								quest for love a joyous and meaningful experience.
+								<hr style="width: 250px;" align="center">
+								<br>
+
+							<h3 id="h2">Why Choose Us:</h3>
+							<hr>
+							Personalized Matching: Our advanced algorithms consider not just interests and demographics
+							but also
+							personality traits and values to help you find someone truly compatible.
+
+							Safety and Security: Your privacy is our priority. We employ robust security measures to
+							ensure a safe
+							and
+							secure environment for all our members.
+
+							Supportive Guidance: Our team is here to assist you at every step of your journey. From
+							creating a
+							compelling profile to navigating the intricacies of online communication, we're here to
+							help.
+							<hr style="width: 250px;" align="center">
+							<br>
+
+							<h3 id="h2"> Join Us in the Journey of Love:</h3>
+							<hr>
+
+							Embark on the exciting adventure of finding your perfect match with us. Whether you're
+							looking for love,
+							companionship, or a lifelong partner, we are here to make your dreams of a fulfilling
+							relationship come
+							true.
+
+							Thank you for choosing us. Let's create love stories that last a lifetime!
+							</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/angularjs/index.js"></script>
+</body>
+
+</html>

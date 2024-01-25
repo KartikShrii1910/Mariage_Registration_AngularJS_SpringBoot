@@ -1,0 +1,121 @@
+.inputdemoErrorsAdvanced .hint {
+	position: absolute;
+	left: 2px;
+	right: auto;
+	bottom: 7px;
+	font-size: 30px;
+	line-height: 14px;
+	transition: all 0.3s cubic-bezier(0, 0, 0, 0);
+	color: rgba(0, 0, 0, 0);
+}
+
+.inputdemoErrorsAdvanced .hint.ng-hide,
+.inputdemoErrorsAdvanced .hint.ng-enter,
+.inputdemoErrorsAdvanced .hint.ng-leave.ng-leave-active {
+	bottom: 26px;
+	opacity: 0;
+}
+
+.inputdemoErrorsAdvanced .hint.ng-leave,
+.inputdemoErrorsAdvanced .hint.ng-enter.ng-enter-active {
+	bottom: 7px;
+	opacity: 1;
+}
+
+
+.inputdemoInlineForm .demo-inline-form-container {
+	padding: 16px;
+}
+
+
+.inputdemoInlineForm .demo-inline-form-container .demo-radio-button-label {
+	margin: 18px 16px;
+	padding-top: 0px;
+}
+
+
+md-radio-group {
+	color: #000000;
+
+}
+
+
+
+
+md-input-container {
+	color: #000000;
+}
+
+.kk {
+	color: black;
+	padding: 25px;
+	font-size: 20px;
+}
+
+body {
+	background-image: url('https://img.freepik.com/free-photo/hands-indian-bride-groom-intertwined-together-making-authentic-wedding-ritual_8353-10047.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	font-weight: 600;
+	background-position: center;
+	background-attachment: fixed;
+	height: fit-content;
+	padding-bottom: 10px;
+
+	/*background-color: rgb(0, 64, 128);*/
+}
+
+.font {
+	font-size: 20px;
+}
+
+.font2 {
+	font-size: 20px;
+ 
+}
+
+.container {
+
+	background-color: rgba(255, 255, 255, 0.8);
+	border-radius: 10px;
+	box-shadow: 50px;
+	color: aliceblue;
+	width: 1000px;
+	margin-bottom: 20px;
+}
+
+form {
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	margin-right: 20px;
+}
+
+.form-group {
+	margin-bottom: 15px;
+}
+
+label {
+	font-weight: bold;
+	color: #000000;
+}
+
+md-button {
+	background-color: #fdfdfd;
+	color: #000000;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+md-button:hover {
+	background-color: #0056b3;
+}
+
+h1,
+h2,
+h3 {
+	text-align: center;
+	color: #000000;
+}

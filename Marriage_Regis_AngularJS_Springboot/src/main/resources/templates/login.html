@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en" ng-app="login" ng-controller="LoginController">
+
+<head>
+
+	<!-- Required meta tags -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-aria.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-messages.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/angular-material@1.1.12/angular-material.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+	<link rel="stylesheet"
+		href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css">
+
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<link rel="stylesheet"
+		href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/css/login.css">
+	<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+-->
+
+</head>
+
+<body>
+	<div>
+
+		<nav class="navbar navbar-expand-lg bg-dark navbar-dark" style="position: relative;">
+
+			<a class="navbar-brand" href="#" style="padding-left: 20px;">Marriage Management System</a>
+
+			<!-- Navbar toggler button for small screens -->
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<!-- Navbar links -->
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+				</ul>
+			</div>
+
+			<a class="text-center" href="/home" align="center" style="padding-right: 10px;">
+				<md-button class="btn btn-success">
+					Home
+				</md-button>
+			</a>
+			<a class="text-center" href="/index" align="center" style="padding-right: 20px;">
+				<md-button class="btn btn-success">Registration</md-button>
+			</a>
+
+
+		</nav>
+
+
+
+		<div class="main-container">
+
+			<div class="container" id="review1">
+
+				<div class="row">
+					<div class=" offset-mt-3">
+
+						<div class="card-body" style="padding: 25px;">
+							<h1 align="center" style="font-size: 50px;">Log In</h1>
+
+							<!-- Display an alert if the "logout" parameter is present in the URL -->
+							<script th:if="${param.logout}" th:inline="javascript">
+								// <![CDATA[
+								alert('Logout successful!');
+							// /]]>/
+							</script>
+
+							<!-- Check if loginError attribute is present and show an alert -->
+							<div th:if="${param.error}" class="alert alert-danger">
+								Invalid username or password. Please try again.</div>
+
+							<form action="/dologin" method="post">
+								<div class="form-group">
+									<label class="control-label mt-2" for="email" style="font-size: 20px;">Email</label>
+									<input type="text" placeholder="Enter email" name="username" id="username"
+										class="form-control" required>
+								</div>
+
+
+								<div class="form-group mt-4">
+									<label for="password" style="font-size: 20px;">Password</label>
+									<input type="{{showPassword ? 'text' : 'password'}}" name="password" id="password"
+										placeholder="Enter Password" class="form-control" required>
+									<div class="mt-2">
+										<md-checkbox class="md-primary" ng-model="showPassword"
+											aria-label="Show Password" style="color: white;">
+										</md-checkbox>
+										<lable>Show Password</lable>
+									</div>
+								</div>
+
+								<div class="form-group" align="center">
+									<label for="captcha" style="padding-right: 10px;  font-size: 20px;">Captcha</label>
+									<input type="text" id="captcha" ng-model="userCaptcha"
+										style="width: 100px; border-radius: 5px;" required>
+									<span id="captchaa">{{captcha}}</span>
+									<!--<md-button id="captchaa" disabled>{{captcha}}</md-button>-->
+									<span ng-click="getCaptcha()">
+										<i class="fa fa-refresh" style="font-size:24px;color: rgb(0, 0, 0);"></i></span>
+									<p ng-show="showError" style="color: red;">{{errorMessage}}</p>
+									<div class="text-danger" ng-if="param.error">
+										Invalid Username or Password
+									</div>
+
+								</div>
+
+								<div align="center">
+									<a ng-click="submitForm()">
+										<md-button type="submit" class="btn btn-success"
+											style="width: 150px;">Login</md-button>
+									</a><br>
+
+								</div>
+
+
+								<div ng-hide=true>
+									<md-button type="submit" id="log" class="btn btn-light">Log In</md-button>
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+	<script>
+		var app = angular.module('login', ['ngMaterial', 'ngMessages']);
+
+		app.controller('LoginController', function ($scope, $http) {
+			$scope.userCaptcha = "";
+			$scope.showError = false;
+			$scope.errorMessage = "";
+
+			$scope.showPassword = false;
+
+			$scope.togglePasswordVisibility = function () {
+				$scope.showPassword = !$scope.showPassword;
+			};
+
+			$scope.selectpan = function () {
+				// Trigger click event on the file input
+				document.getElementById('log').click();
+			};
+
+			$scope.getCaptcha = function () {
+				$http.get('/captcha')
+					.then(function (response) {
+						$scope.captchaId = response.data.captchaId;
+						$scope.captcha = response.data.captcha;
+					});
+			}
+
+			$scope.getCaptcha();
+
+			$scope.submitForm = function () {
+				$http.post('/validate-captcha', {captchaId: $scope.captchaId, userCaptcha: $scope.userCaptcha})
+					.then(function (response) {
+						if (response.data.success) {
+							$scope.selectpan();
+							$scope.showError = false;
+							$scope.getCaptcha(); // Get a new captcha after successful validation
+						} else {
+							$scope.showError = true;
+							$scope.errorMessage = "Incorrect captcha. Please try again.";
+							if (response.data.newCaptcha) {
+								$scope.captcha = response.data.newCaptcha; // Update the captcha in UI
+							}
+						}
+					});
+			};
+		});
+	</script>
+</body>
+
+</html>

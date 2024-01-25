@@ -1,0 +1,36 @@
+body {
+			font-family: "Permanent Marker", cursive;
+			background-attachment: fixed;
+			background-size: cover;
+			background-position: center;
+			font-weight: 600;
+			background-image: url("https://cdn.wallpapersafari.com/31/54/Hz7w8E.jpg");
+		}
+
+		#navbar {
+			font-style: italic;
+			color: aliceblue;
+		}
+
+		#btn {
+			margin: 0.5em;
+			padding: 5px;
+			background-color: white;
+			color: black;
+			border: 2px solid black;
+			border-radius: 5%;
+			cursor: pointer;
+		}
+
+		#btn:hover {
+			background: rgb(11, 11, 11);
+			color: white;
+		}
+
+		#navbar a {
+			color: black;
+		}
+
+		#div {
+			padding-top: 1%;
+		}
